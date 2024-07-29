@@ -30,5 +30,5 @@ app.get('/scoreboard', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`https://ctf-backend-ar9m.onrender.com`);
 });
