@@ -7,7 +7,7 @@ function createBubble(score) {
 }
 
 function renderScoreboard() {
-    fetch('http://localhost:3000/scoreboard')
+    fetch('https://ctf-backend-ar9m.onrender.com')
     .then(response => response.json())
     .then(scores => {
         const scoreboard = document.getElementById('scoreboard');
