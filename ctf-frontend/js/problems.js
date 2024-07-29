@@ -9,7 +9,7 @@ async function fetchProblems() {
     }
 
     try {
-        const response = await fetch('https://your-backend-service.onrender.com/api/problems', {
+        const response = await fetch('https://ctf-backend-ar9m.onrender.com', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
