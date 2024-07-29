@@ -3,7 +3,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    fetch('http://localhost:3000/login', {
+    fetch('https://ctf-competition.onrender.com', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
