@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodArt'24 Challenges</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CTF Challenges</h1>
+
+        <!-- Challenges will be dynamically generated here -->
+    </div>
+
+    <div class="total-points">
+        Total Points: <span id="total-points">0</span>
+    </div>
+
+    <script>
+        const flags = [
+            'flag{correct_flag1}', 'flag{correct_flag2}', 'flag{correct_flag3}',
+            'flag{correct_flag4}', 'flag{correct_flag5}', 'flag{correct_flag6}',
+            'flag{correct_flag7}', 'flag{correct_flag8}', 'flag{correct_flag9}',
+            'flag{correct_flag10}', 'flag{correct_flag11}', 'flag{correct_flag12}',
+            'flag{correct_flag13}', 'flag{correct_flag14}', 'flag{correct_flag15}',
+            'flag{correct_flag16}', 'flag{correct_flag17}', 'flag{correct_flag18}',
+            'flag{correct_flag19}', 'flag{correct_flag20}'
+        ];
+
+        const points = [
+            10, 20, 30, 15, 25, 35, 40, 50, 60, 70,
+            80, 90, 100, 110, 120, 130, 140, 150, 160, 170
+        ];
+
+        const fileNames = [
+            'your_actual_file1.zip', 'your_actual_file2.zip', 'your_actual_file3.zip',
+            'your_actual_file4.zip', 'your_actual_file5.zip', 'your_actual_file6.zip',
+            'your_actual_file7.zip', 'your_actual_file8.zip', 'your_actual_file9.zip',
+            'your_actual_file10.zip', 'your_actual_file11.zip', 'your_actual_file12.zip',
+            'your_actual_file13.zip', 'your_actual_file14.zip', 'your_actual_file15.zip',
+            'your_actual_file16.zip', 'your_actual_file17.zip', 'your_actual_file18.zip',
+            'your_actual_file19.zip', 'your_actual_file20.zip'
+        ];
+
+        let totalPoints = parseInt(sessionStorage.getItem('totalPoints')) || 0;
+        const completedChallenges = new Set(JSON.parse(sessionStorage.getItem('completedChallenges')) || []);
+        const teamName = sessionStorage.getItem('teamName') || prompt('Enter your team name:');
+        sessionStorage.setItem('teamName', teamName);
+
+        document.getElementById('total-points').textContent = totalPoints;
+
+        // Dynamically generate challenge HTML
+        const container = document.querySelector('.container');
+        for (let i = 0; i < 20; i++) {
+            const challengeDiv = document.createElement('div');
+            challengeDiv.className = 'challenge';
+            challengeDiv.id = `challenge${i + 1}`;
+
+            challengeDiv.innerHTML = `
+                <h2>Challenge ${i + 1}</h2>
+                <p>This is the description for Challenge ${i + 1}. Solve this challenge to gain points.</p>
+                <a href="files/${fileNames[i]}" download="${fileNames[i]}" class="download-button">Download Challenge ${i + 1} File</a>
+                <input type="text" placeholder="flag{your_flag}" class="flag-input">
+                <button onclick="checkFlag(${i}, event)" class="submit-button">Submit Flag</button>
+                <p class="error-message"></p>
+            `;
+
+            container.appendChild(challengeDiv);
+        }
+
+        function checkFlag(challengeIndex, event) {
+            event.preventDefault();
+
+            const challenge = document.getElementsByClassName('challenge')[challengeIndex];
+            const input = challenge.getElementsByClassName('flag-input')[0];
+            const errorMessage = challenge.getElementsByClassName('error-message')[0];
+            const button = challenge.getElementsByClassName('submit-button')[0];
+
+            if (input.value === flags[challengeIndex]) {
+                if (!completedChallenges.has(challengeIndex)) {
+                    totalPoints += points[challengeIndex];
+                    document.getElementById('total-points').textContent = totalPoints;
+                    completedChallenges.add(challengeIndex);
+                    sessionStorage.setItem('totalPoints', totalPoints);
+                    sessionStorage.setItem('completedChallenges', JSON.stringify(Array.from(completedChallenges)));
+
+                    // Send points update to server
+                    fetch('/scorecard/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            teamName: teamName,
+                            points: points[challengeIndex]
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update score');
+                        }
+                        return response.text();
+                    })
+                    .then(() => console.log('Score updated'))
+                    .catch(error => console.error('Error:', error));
+                }
+                errorMessage.textContent = 'Correct flag!';
+                errorMessage.style.color = 'green';
+                input.disabled = true;
+                button.disabled = true;
+            } else {
+                errorMessage.textContent = 'Wrong flag, try again.';
+                errorMessage.style.color = 'red';
+            }
+        }
+
+        function initializePage() {
+            document.querySelectorAll('.challenge').forEach((challenge, index) => {
+                const input = challenge.getElementsByClassName('flag-input')[0];
+                const button = challenge.getElementsByClassName('submit-button')[0];
+                if (completedChallenges.has(index)) {
+                    input.disabled = true;
+                    button.disabled = true;
+                    input.value = flags[index];
+                }
+            });
+        }
+
+        initializePage();
+    </script>
+</body>
+</html>

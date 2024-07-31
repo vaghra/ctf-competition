@@ -1,0 +1,107 @@
+/* styles-challenges.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+h1 {
+    margin: 0;
+    padding: 20px;
+    font-size: 2.5em;
+    color: #333;
+    text-align: center;
+}
+
+.challenge {
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 1.75em;
+    color: #444;
+}
+
+p {
+    font-size: 1em;
+    color: #666;
+}
+
+.download-button {
+    display: block;
+    width: 95%;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+.flag-input {
+    width: calc(100% - 22px);
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    font-size: 0.9em;
+    color: red;
+    margin-top: 10px;
+}
+
+.total-points {
+    font-size: 1.5em;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid #0056b3;
+}
